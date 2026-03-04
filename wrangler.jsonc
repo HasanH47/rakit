@@ -9,5 +9,11 @@
 		"binding": "ASSETS"
 	},
 	"workers_dev": true,
-	"preview_urls": true
+	"preview_urls": true,
+	"routes": [
+		{
+			"pattern": "rakit.hasanh.dev",
+			"custom_domain": true
+		}
+	]
 }
