@@ -2,6 +2,52 @@
 	import Sidebar from '$lib/components/builder/Sidebar.svelte';
 	import Inspector from '$lib/components/builder/Inspector.svelte';
 	import Canvas from '$lib/components/builder/Canvas.svelte';
+	import { canvas } from '$lib/state/canvas.svelte';
+
+	let isPublishing = $state(false);
+	let publishSuccess = $state(false);
+	let publishError = $state<string | null>(null);
+
+	async function publishWebsite() {
+		// Mock username for MVP. In Epic 3 this becomes authenticated context.
+		const username = "demo-user"; 
+		
+		if (canvas.blocks.length === 0) {
+			publishError = "Cannot publish an empty canvas.";
+			setTimeout(() => publishError = null, 3000);
+			return;
+		}
+
+		isPublishing = true;
+		publishError = null;
+		publishSuccess = false;
+
+		try {
+			const res = await fetch('/api/publish', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					username,
+					blocks: canvas.blocks
+				})
+			});
+
+			const data = (await res.json()) as { success: boolean; error?: string };
+
+			if (data.success) {
+				publishSuccess = true;
+				setTimeout(() => publishSuccess = false, 3000);
+			} else {
+				publishError = data.error || "Unknown publishing error occurred.";
+				setTimeout(() => publishError = null, 5000);
+			}
+		} catch (e: any) {
+			publishError = e.message || "Network error occurred.";
+			setTimeout(() => publishError = null, 5000);
+		} finally {
+			isPublishing = false;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -30,6 +76,15 @@
 		</div>
 
 		<div class="flex items-center gap-2">
+			
+			{#if publishSuccess}
+			<span class="text-sm font-medium text-brand-500 animate-fade-in mr-2">Published!</span>
+			{/if}
+
+			{#if publishError}
+			<span class="text-sm font-medium text-red-500 animate-fade-in mr-2 max-w-[200px] truncate" title={publishError}>{publishError}</span>
+			{/if}
+
 			<button
 				class="rounded p-2 text-dark-500 transition-colors hover:bg-dark-100 dark:text-dark-400 dark:hover:bg-dark-900"
 				title="Undo"
@@ -70,10 +125,12 @@
 			<div class="mx-2 h-6 w-px bg-dark-200 dark:bg-dark-800"></div>
 
 			<button
-				class="cursor-not-allowed rounded bg-dark-900 px-4 py-1.5 text-sm font-medium text-white opacity-50 shadow-sm transition-colors hover:bg-dark-800 dark:bg-white dark:text-dark-900 dark:hover:bg-dark-100"
-				title="Publish engine coming in Epic 2"
+				onclick={publishWebsite}
+				disabled={isPublishing}
+				class={`rounded px-4 py-1.5 text-sm font-medium text-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-dark-50 dark:focus:ring-offset-dark-950 ${isPublishing ? 'bg-dark-400 cursor-wait dark:bg-dark-700' : 'premium-gradient hover:scale-105'}`}
+				title="Publish to Internet"
 			>
-				Publish
+				{isPublishing ? 'Publishing...' : 'Publish'}
 			</button>
 		</div>
 	</header>
