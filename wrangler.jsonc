@@ -15,5 +15,14 @@
 			"pattern": "rakit.hasanh.dev",
 			"custom_domain": true
 		}
-	]
+	],
+	"observability": {
+		"logs": {
+			"enabled": false,
+			"invocation_logs": true
+		},
+		"traces": {
+			"enabled": false
+		}
+	}
 }
