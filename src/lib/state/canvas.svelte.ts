@@ -11,6 +11,7 @@ export interface Block {
 // Svelte 5 Runes Class for Global State
 export class CanvasState {
 	blocks = $state<Block[]>([]);
+	globalCss = $state<string>('');
 	selectedBlockId = $state<string | null>(null);
 
 	// Derived values

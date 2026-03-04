@@ -6,8 +6,8 @@ import type { Block } from '$lib/state/canvas.svelte.js';
 
 export const POST: RequestHandler = async ({ request }) => {
     try {
-        const payload = (await request.json()) as { username: string; blocks: Block[] };
-        const { username, blocks } = payload;
+        const payload = (await request.json()) as { username: string; blocks: Block[]; globalCss?: string };
+        const { username, blocks, globalCss = '' } = payload;
 
         if (!username || !blocks || !Array.isArray(blocks)) {
             return json({ success: false, error: 'Invalid payload: username and blocks array are required.' }, { status: 400 });
@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ request }) => {
         }
 
         // 1. Compile the Canvas JSON down into a standalone HTML String 
-        const htmlContent = generateHtml(blocks);
+        const htmlContent = generateHtml(blocks, globalCss);
         
         // 2. Base64 Encode for GitHub Content API
         // Using Buffer or btoa based on edge compat. btoa is standard web API available in workers.

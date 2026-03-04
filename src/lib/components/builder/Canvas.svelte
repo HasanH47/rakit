@@ -45,20 +45,26 @@
 		if (!blockType) return;
 
 		// Setup initial default properties based on type (simpler version of what could be a complex schema)
-		const defaultProps: Record<string, any> = {};
+		const defaultProps: Record<string, any> = {
+			paddingClass: 'py-24',
+			bgClass: 'bg-white dark:bg-dark-900'
+		};
 		if (blockType === 'hero') {
 			defaultProps.title = 'Your Epic Title';
 			defaultProps.subtitle = 'Replace this subtitle.';
 			defaultProps.ctaText = 'Click Here';
 			defaultProps.ctaLink = '#';
+			defaultProps.bgClass = 'bg-white dark:bg-dark-900';
 		} else if (blockType === 'text') {
 			defaultProps.content =
 				'<h2>Rich Text Area</h2><p>You can edit this HTML right in the inspector.</p>';
 			defaultProps.align = 'text-center';
+			defaultProps.paddingClass = 'py-16';
 		} else if (blockType === 'feature-grid') {
 			defaultProps.heading = 'Our Features';
 			defaultProps.subheading = 'What makes us different';
 			defaultProps.columns = 3;
+			defaultProps.bgClass = 'bg-dark-50 dark:bg-dark-950';
 			defaultProps.features = [
 				{ title: 'Point One', description: 'Details...' },
 				{ title: 'Point Two', description: 'Details...' },
@@ -66,6 +72,8 @@
 			];
 		} else if (blockType === 'footer') {
 			defaultProps.copyright = '© 2026 Your Name.';
+			defaultProps.paddingClass = 'py-12';
+			defaultProps.bgClass = 'bg-dark-50 dark:bg-dark-950';
 		}
 
 		// In a real implementation we'd calculate the drop index based on mouse position.

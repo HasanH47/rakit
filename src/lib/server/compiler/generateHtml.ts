@@ -12,9 +12,10 @@ const generators: Record<BlockType, (props: Record<string, unknown>) => string> 
         const ctaText = props.ctaText as string || '';
         const ctaLink = props.ctaLink as string || '#';
         const bgClass = props.bgClass as string || 'bg-white dark:bg-dark-900';
+        const paddingClass = props.paddingClass as string || 'py-24';
         const alignment = props.alignment as string || 'text-center';
         return `
-            <section class="w-full py-24 px-6 ${bgClass} transition-colors duration-300">
+            <section class="w-full ${paddingClass} px-6 ${bgClass} transition-colors duration-300">
                 <div class="max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[50vh] ${alignment}">
                     <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-dark-900 dark:text-white">
                         ${title}
@@ -36,8 +37,9 @@ const generators: Record<BlockType, (props: Record<string, unknown>) => string> 
         const content = props.content as string || '';
         const align = props.align as string || 'text-left';
         const bgClass = props.bgClass as string || 'bg-white dark:bg-dark-900';
+        const paddingClass = props.paddingClass as string || 'py-16';
         return `
-            <section class="w-full py-16 px-6 ${bgClass} transition-colors duration-300">
+            <section class="w-full ${paddingClass} px-6 ${bgClass} transition-colors duration-300">
                 <div class="max-w-3xl mx-auto prose prose-lg dark:prose-invert prose-brand ${align}">
                     ${content}
                 </div>
@@ -68,7 +70,7 @@ const generators: Record<BlockType, (props: Record<string, unknown>) => string> 
         `).join('');
 
         return `
-            <section class="w-full px-6 py-24 ${bgClass} transition-colors duration-300">
+            <section class="w-full px-6 ${props.paddingClass || 'py-24'} ${bgClass} transition-colors duration-300">
                 <div class="mx-auto max-w-7xl">
                     ${(heading || subheading) ? `
                         <div class="mb-16 text-center">
@@ -96,7 +98,7 @@ const generators: Record<BlockType, (props: Record<string, unknown>) => string> 
         `).join('');
 
         return `
-            <footer class="w-full border-t border-dark-200/50 px-6 py-12 dark:border-dark-800/50 ${bgClass} transition-colors duration-300">
+            <footer class="w-full border-t border-dark-200/50 px-6 ${props.paddingClass || 'py-12'} dark:border-dark-800/50 ${bgClass} transition-colors duration-300">
                 <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 md:flex-row">
                     <div class="text-sm text-dark-500 dark:text-dark-400">
                         ${copyright}
@@ -115,7 +117,7 @@ const generators: Record<BlockType, (props: Record<string, unknown>) => string> 
 /**
  * Takes the raw canvas blocks and compiles a complete, valid HTML5 document.
  */
-export function generateHtml(blocks: Block[]): string {
+export function generateHtml(blocks: Block[], globalCss: string = ''): string {
     
     // 1. Generate the body content sequentially
     const bodyContent = blocks.map(block => {
@@ -142,6 +144,7 @@ export function generateHtml(blocks: Block[]): string {
     <!-- Tailwind CSS v4 CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     
+    ${globalCss ? `\n    <!-- Rakit Global Custom CSS -->\n    <style id="rakit-custom-css">\n${globalCss}\n    </style>\n` : ''}
     <!-- Native Rakit CSS Theme Emulation -->
     <style type="text/tailwindcss">
         @theme {

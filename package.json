@@ -65,5 +65,8 @@
 	},
 	"keywords": [
 		"svelte"
-	]
+	],
+	"dependencies": {
+		"gsap": "^3.14.2"
+	}
 }

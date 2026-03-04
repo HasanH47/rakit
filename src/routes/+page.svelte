@@ -1,5 +1,46 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
+	import gsap from 'gsap';
+	import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+
+	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
+
+		// Hero Animations
+		const tl = gsap.timeline();
+		tl.fromTo('.hero-badge', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' })
+		  .fromTo('.hero-title', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.4')
+		  .fromTo('.hero-desc', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, '-=0.6')
+		  .fromTo('.hero-cta', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.7)', stagger: 0.1 }, '-=0.4');
+
+		// Decorative Orbs
+		gsap.to('.orb-1', { y: 'random(-50, 50)', x: 'random(-50, 50)', duration: 5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+		gsap.to('.orb-2', { y: 'random(-50, 50)', x: 'random(-50, 50)', duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 });
+
+		// Mockup Parallax
+		gsap.fromTo('.hero-mockup', 
+			{ y: 100, opacity: 0, rotationX: 10 },
+			{ y: 0, opacity: 1, rotationX: 0, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.hero-mockup', start: 'top 85%' } }
+		);
+
+		// Features Stagger
+		gsap.fromTo('.feature-card', 
+			{ y: 50, opacity: 0 },
+			{ y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: 'power2.out', scrollTrigger: { trigger: '#features', start: 'top 75%' } }
+		);
+
+		// Use Cases Showcases
+		gsap.fromTo('.use-case-card',
+			{ y: 50, opacity: 0, scale: 0.95 },
+			{ y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.2, ease: 'power2.out', scrollTrigger: { trigger: '.use-cases-section', start: 'top 75%' } }
+		);
+
+		// CTA Section
+		gsap.fromTo('.cta-content', 
+			{ scale: 0.9, opacity: 0 },
+			{ scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.cta-section', start: 'top 80%' } }
+		);
+	});
 </script>
 
 <svelte:head>
@@ -48,17 +89,16 @@
 		<!-- Decorative background elements -->
 		<div class="absolute top-0 left-0 -z-10 h-[600px] w-full overflow-hidden">
 			<div
-				class="absolute top-[-10%] right-[-5%] h-[500px] w-[500px] rounded-full bg-brand-400/20 blur-[100px] dark:bg-brand-500/10"
+				class="orb-1 absolute top-[-10%] right-[-5%] h-[500px] w-[500px] rounded-full bg-brand-400/20 blur-[100px] dark:bg-brand-500/10"
 			></div>
 			<div
-				class="absolute top-[20%] left-[-10%] h-[400px] w-[400px] rounded-full bg-blue-400/20 blur-[100px] dark:bg-blue-500/10"
+				class="orb-2 absolute top-[20%] left-[-10%] h-[400px] w-[400px] rounded-full bg-blue-400/20 blur-[100px] dark:bg-blue-500/10"
 			></div>
 		</div>
 
 		<section class="mx-auto max-w-7xl px-6 pt-32 pb-24 text-center">
 			<div
-				class="mb-8 inline-flex animate-fade-in items-center gap-2 glass-card rounded-full border border-brand-200 px-3 py-1 text-sm font-medium text-brand-600 dark:border-brand-800/30 dark:text-brand-400"
-				style="animation-delay: 100ms; animation-fill-mode: both;"
+				class="hero-badge opacity-0 mb-8 inline-flex items-center gap-2 glass-card rounded-full border border-brand-200 px-3 py-1 text-sm font-medium text-brand-600 dark:border-brand-800/30 dark:text-brand-400"
 			>
 				<span class="relative flex h-2 w-2">
 					<span
@@ -70,28 +110,23 @@
 			</div>
 
 			<h1
-				class="mb-8 animate-fade-in text-5xl leading-tight font-extrabold tracking-tight md:text-7xl"
-				style="animation-delay: 200ms; animation-fill-mode: both;"
+				class="hero-title opacity-0 mb-8 text-5xl leading-tight font-extrabold tracking-tight md:text-7xl"
 			>
 				Build Beautiful Websites <br />
 				<span class="premium-gradient-text">Without the Server Bills.</span>
 			</h1>
 
 			<p
-				class="mx-auto mb-12 max-w-2xl animate-fade-in text-lg text-dark-600 md:text-xl dark:text-dark-300"
-				style="animation-delay: 300ms; animation-fill-mode: both;"
+				class="hero-desc opacity-0 mx-auto mb-12 max-w-2xl text-lg text-dark-600 md:text-xl dark:text-dark-300"
 			>
 				Rakit is a blazing fast visual web builder that stores your data in GitHub and serves your
 				site via Cloudflare Edge. Zero databases. Zero hosting fees. Total freedom.
 			</p>
 
-			<div
-				class="flex animate-fade-in flex-col items-center justify-center gap-4 sm:flex-row"
-				style="animation-delay: 400ms; animation-fill-mode: both;"
-			>
+			<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 				<a
 					href="/builder"
-					class="w-full rounded-xl premium-gradient px-8 py-4 text-lg font-bold text-white shadow-xl shadow-brand-500/20 transition-all hover:scale-105 hover:shadow-brand-500/40 active:scale-95 sm:w-auto"
+					class="hero-cta opacity-0 w-full rounded-xl premium-gradient px-8 py-4 text-lg font-bold text-white shadow-xl shadow-brand-500/20 transition-all hover:scale-105 hover:shadow-brand-500/40 active:scale-95 sm:w-auto"
 				>
 					Start Building Free
 				</a>
@@ -99,7 +134,7 @@
 					href="https://github.com/hasanh47/rakit"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex w-full items-center justify-center gap-2 glass-card rounded-xl px-8 py-4 text-lg font-bold transition-all hover:bg-white/50 active:scale-95 sm:w-auto dark:hover:bg-dark-800/50"
+					class="hero-cta opacity-0 flex w-full items-center justify-center gap-2 glass-card rounded-xl px-8 py-4 text-lg font-bold transition-all hover:bg-white/50 active:scale-95 sm:w-auto dark:hover:bg-dark-800/50"
 				>
 					<svg viewBox="0 0 24 24" class="h-6 w-6 fill-current"
 						><path
@@ -112,10 +147,7 @@
 		</section>
 
 		<!-- Preview Mockup Image/Div -->
-		<section
-			class="mx-auto max-w-6xl animate-slide-up px-6 pb-32"
-			style="animation-delay: 500ms; animation-fill-mode: both;"
-		>
+		<section class="max-w-6xl mx-auto px-6 pb-24 hero-mockup opacity-0" style="transform-style: preserve-3d; perspective: 1000px;">
 			<div
 				class="relative rounded-2xl premium-gradient p-2 shadow-2xl shadow-brand-500/20 md:rounded-[2rem] md:p-4"
 			>
@@ -154,6 +186,37 @@
 			</div>
 		</section>
 
+		<!-- Showcase & Use Cases -->
+		<section class="use-cases-section mx-auto max-w-7xl px-6 pb-24">
+			<div class="mb-16 text-center">
+				<h2 class="mb-4 text-3xl font-bold md:text-4xl text-dark-900 dark:text-white">Empowering Every Creator</h2>
+				<p class="mx-auto max-w-2xl text-dark-600 dark:text-dark-400">
+					Rakit’s headless engine morphs natively accommodating diverse professional workflows and dynamic web projects flawlessly.
+				</p>
+			</div>
+
+			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 text-left">
+				<div class="use-case-card opacity-0 group relative overflow-hidden rounded-2xl border border-dark-200/50 bg-white/50 p-8 shadow-sm transition-all hover:-translate-y-1 hover:bg-white dark:border-dark-800/50 dark:bg-dark-950/50 dark:hover:bg-dark-900">
+					<div class="absolute inset-0 bg-linear-to-br from-blue-500/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+					<h3 class="mb-2 text-xl font-bold text-dark-900 dark:text-white">Startups & SaaS</h3>
+					<p class="text-dark-600 dark:text-dark-400">Launch premium feature matrixes and convert raw visitors instantly directly utilizing integrated Edge nodes.</p>
+				</div>
+				<div class="use-case-card opacity-0 group relative overflow-hidden rounded-2xl border border-dark-200/50 bg-white/50 p-8 shadow-sm transition-all hover:-translate-y-1 hover:bg-white dark:border-dark-800/50 dark:bg-dark-950/50 dark:hover:bg-dark-900">
+					<div class="absolute inset-0 bg-linear-to-br from-brand-500/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+					<h3 class="mb-2 text-xl font-bold text-dark-900 dark:text-white">Portfolios</h3>
+					<p class="text-dark-600 dark:text-dark-400">Visually execute pristine image galleries defining absolute minimal modern UI typography seamlessly.</p>
+				</div>
+				<div class="use-case-card opacity-0 group relative overflow-hidden rounded-2xl border border-dark-200/50 bg-white/50 p-8 shadow-sm transition-all hover:-translate-y-1 hover:bg-white dark:border-dark-800/50 dark:bg-dark-950/50 dark:hover:bg-dark-900">
+					<div class="absolute inset-0 bg-linear-to-br from-purple-500/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div>
+					<h3 class="mb-2 text-xl font-bold text-dark-900 dark:text-white">Digital Creators</h3>
+					<p class="text-dark-600 dark:text-dark-400">Compose textual stories freely without database setups or infrastructure management whatsoever.</p>
+				</div>
+			</div>
+		</section>
+
 		<!-- Features -->
 		<section
 			id="features"
@@ -169,7 +232,7 @@
 				</div>
 
 				<div class="grid gap-8 md:grid-cols-3">
-					<div class="glass-card p-8 transition-transform hover:-translate-y-1">
+					<div class="glass-card p-8 transition-transform hover:-translate-y-1 feature-card opacity-0">
 						<div
 							class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
 						>
@@ -194,7 +257,7 @@
 						</p>
 					</div>
 
-					<div class="glass-card p-8 transition-transform hover:-translate-y-1">
+					<div class="glass-card p-8 transition-transform hover:-translate-y-1 feature-card opacity-0">
 						<div
 							class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-600 dark:bg-brand-900/30 dark:text-brand-400"
 						>
@@ -219,7 +282,7 @@
 						</p>
 					</div>
 
-					<div class="glass-card p-8 transition-transform hover:-translate-y-1">
+					<div class="glass-card p-8 transition-transform hover:-translate-y-1 feature-card opacity-0">
 						<div
 							class="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
 						>
@@ -248,9 +311,9 @@
 		</section>
 
 		<!-- CTA Section -->
-		<section class="relative overflow-hidden py-32">
+		<section class="relative overflow-hidden py-32 cta-section">
 			<div class="absolute inset-0 premium-gradient opacity-10"></div>
-			<div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
+			<div class="relative z-10 mx-auto max-w-4xl px-6 text-center cta-content opacity-0">
 				<h2 class="mb-6 text-4xl font-bold md:text-5xl">Ready to break free?</h2>
 				<p class="mb-10 text-xl text-dark-600 dark:text-dark-300">
 					Join the open-source movement of zero-cost web hosting and intuitive design.

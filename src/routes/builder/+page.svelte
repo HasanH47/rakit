@@ -28,7 +28,8 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					username,
-					blocks: canvas.blocks
+					blocks: canvas.blocks,
+					globalCss: canvas.globalCss
 				})
 			});
 
