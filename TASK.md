@@ -60,3 +60,14 @@
 - [x] **Story:** As a user, I want a flawless, premium interaction experience.
   - [x] **Task:** Implement a beautiful Empty State for the Canvas to guide initial interactions.
   - [x] **Task:** Refine loading states, implementing skeleton screens or advanced Toaster alerts natively masking the GitHub API delay.
+
+### Sprint 5: Dynamic Landing Page & Advanced Customization (Epic 5)
+
+- [ ] **Story:** As a visitor, I want a wildly engaging landing page showcasing Rakit's capability.
+  - [ ] **Task:** Integrate GSAP (or Framer Motion) for scroll-triggered micro-interactions and dynamic 3D-feeling sections on the landing page.
+  - [ ] **Task:** Expand the landing page content (e.g., Use Cases, Testimonials mockups, detailed feature breakdown) to make it "alive" and premium.
+- [ ] **Story:** As an advanced user, I want to inject custom CSS to override standard templates.
+  - [ ] **Task:** Introduce a `Custom HTML/CSS` block OR a Global CSS settings panel in the Inspector.
+  - [ ] **Task:** Modify `generateHtml.ts` to safely compile user-defined CSS strings inside the final `<style>` head tag.
+- [ ] **Story:** As a builder, I need finer control over block layouts without overwhelming complexity.
+  - [ ] **Task:** Add "Advanced Options" in the Inspector for standard blocks (e.g., customizable Tailwind padding/margin spacing sliders or hex color pickers).
