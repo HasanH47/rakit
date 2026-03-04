@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@plugin '@tailwindcss/forms';
+
+@theme {
+	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+
+	/* Custom Premium Colors */
+	--color-brand-50: #f0fdfa;
+	--color-brand-100: #ccfbf1;
+	--color-brand-200: #99f6e4;
+	--color-brand-300: #5eead4;
+	--color-brand-400: #2dd4bf;
+	--color-brand-500: #14b8a6;
+	--color-brand-600: #0d9488;
+	--color-brand-700: #0f766e;
+	--color-brand-800: #115e59;
+	--color-brand-900: #134e4a;
+
+	--color-dark-50: #f8fafc;
+	--color-dark-100: #f1f5f9;
+	--color-dark-200: #e2e8f0;
+	--color-dark-300: #cbd5e1;
+	--color-dark-400: #94a3b8;
+	--color-dark-500: #64748b;
+	--color-dark-600: #475569;
+	--color-dark-700: #334155;
+	--color-dark-800: #1e293b;
+	--color-dark-900: #0f172a;
+	--color-dark-950: #020617;
+
+	/* Default container sizing */
+	--container-max-w: 80rem;
+
+	/* Animations */
+	--animate-fade-in: fade-in 0.5s ease-out;
+	--animate-slide-up: slide-up 0.5s ease-out;
+
+	@keyframes fade-in {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	@keyframes slide-up {
+		0% {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+@layer base {
+	html {
+		@apply scroll-smooth antialiased;
+	}
+
+	body {
+		@apply bg-dark-50 text-dark-900 dark:bg-dark-950 dark:text-dark-50 font-sans;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-display tracking-tight;
+	}
+}
+
+@utility glass {
+	@apply dark:bg-dark-900/70 border border-white/20 bg-white/70 backdrop-blur-md dark:border-white/10;
+}
+
+@utility glass-card {
+	@apply glass rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/20;
+}
+
+@utility text-glow {
+	text-shadow: 0 0 20px rgba(45, 212, 191, 0.5); /* brand-400 */
+}
+
+@utility premium-gradient {
+	@apply bg-linear-to-br from-brand-400 to-brand-600;
+}
+
+@utility premium-gradient-text {
+	@apply premium-gradient bg-clip-text text-transparent;
+}
