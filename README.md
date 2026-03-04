@@ -1,65 +1,65 @@
-# Svelte library
+# Rakit - Free, Serverless Web Builder
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+Rakit is a hyper-optimized, open-source visual web builder explicitly engineered to operate entirely at a **$0 monthly infrastructure cost**.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+It bypasses traditional databases and expensive backend servers by relying on a GitOps-driven architecture: using **GitHub as a Headless Database** to store flat HTML files, and **Cloudflare Pages/Workers** to distribute those files directly through their edge network.
 
-## Creating a project
+## Core Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Drag-and-Drop Visual Canvas**: Build premium, Tailwind-powered websites using pre-built primitive blocks (Hero, Grid, Text, Footer).
+- **Serverless Compilation Engine**: Svelte visual components are translated completely on the Edge into standalone, highly performant generic `index.html` static templates.
+- **Zero-Cost Storage & Hosting**: Your websites are committed automatically via the GitHub REST API and delivered via Edge CDN Wildcard routing. No Postgres, No Mongo, No VMs.
+- **Premium Interface Boundaries**: Designed incorporating sleek glassmorphism, native Svelte 5 Runes for ultra-responsive logic, and custom Tailwind v4 aesthetics.
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Architecture
 
-# create a new project in my-app
-npx sv create my-app
+1. **Frontend**: SvelteKit + Tailwind CSS v4. Operates the Visual Canvas and Inspector.
+2. **Backend**: SvelteKit Edge Endpoints (`/api/publish`). Compiles Svelte JSON state to raw HTML with infused CDNs and pushes identically to the GitHub repo.
+3. **Delivery Framework**: Wildcard Edge Proxy Routes (`/[user]`). Intercepts user vanity URLs to fetch and cache raw HTML from the GitHub repository locally on the Cloudflare CDN, avoiding API throttles.
+
+## Local Development Setup
+
+To test and run the builder locally, you need a GitHub Personal Access Token (PAT) configured to authorize the internal Git engine to act as your backend database.
+
+### 1. Configure the Environment
+
+Copy the `.env.example` file to create your local active configuration.
+
+```bash
+cp .env.example .env
 ```
 
-To recreate this project with the same configuration:
+Inside `.env`, define the required credentials:
 
-```sh
-# recreate this project
-bun x sv@0.12.4 create --template library --types ts --add sveltekit-adapter="adapter:cloudflare+cfTarget:pages" tailwindcss="plugins:typography,forms" eslint prettier mcp="ide:other+setup:remote" --install bun .
+- `GITHUB_TOKEN`: Your GitHub PAT (requires generic `repo` access).
+- `GITHUB_REPO`: The repository you wish to use as Rakit's storage backend (e.g., `hasanh47/rakit`).
+
+### 2. Install Dependencies
+
+Make sure you have Node or Bun installed, then run:
+
+```bash
+npm install
+# or
+bun install
 ```
 
-## Developing
+### 3. Start Development Server
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Boot up the SvelteKit development runtime:
 
-```sh
+```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# or
+bun run dev
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+Navigate to `http://localhost:5173`. You can access the builder layout at `/builder`.
 
-## Building
+## Production Deployment (Cloudflare)
 
-To build your library:
+Rakit uses `@sveltejs/adapter-cloudflare` resolving to Cloudflare Workers natively.
 
-```sh
-npm pack
-```
-
-To create a production version of your showcase app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```sh
-npm publish
-```
+1. Ensure your `wrangler.jsonc` configuration limits conflicts (e.g., omitting `ASSETS` reserved name bindings).
+2. Add your `.env` variables stringently to your Cloudflare Page Dashboard settings under the exact names mapped locally.
+3. Connect your GitHub repository to Cloudflare Pages for seamless V8 isolate deployments.
