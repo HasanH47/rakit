@@ -62,9 +62,10 @@
 		<div class="flex items-center gap-3">
 			<a
 				href="/"
-				class="flex h-8 w-8 items-center justify-center rounded-lg premium-gradient text-lg font-bold text-white shadow-md transition-transform hover:scale-105"
-				>R</a
+				class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg premium-gradient text-lg font-bold text-white shadow-md transition-transform hover:scale-105"
 			>
+				<img src="/logo.png" alt="Rakit Logo" class="h-full w-full object-cover" />
+			</a>
 			<div class="hidden flex-col md:flex">
 				<span class="font-display text-sm leading-tight font-bold text-dark-900 dark:text-white"
 					>Rakit Builder</span
@@ -78,11 +79,17 @@
 		<div class="flex items-center gap-2">
 			
 			{#if publishSuccess}
-			<span class="text-sm font-medium text-brand-500 animate-fade-in mr-2">Published!</span>
+			<div class="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-600 animate-slide-up dark:text-emerald-400 mr-2">
+				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+				Published successfully
+			</div>
 			{/if}
 
 			{#if publishError}
-			<span class="text-sm font-medium text-red-500 animate-fade-in mr-2 max-w-[200px] truncate" title={publishError}>{publishError}</span>
+			<div class="flex items-center gap-1.5 rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-red-600 animate-slide-up dark:text-red-400 max-w-[200px] truncate mr-2" title={publishError}>
+				<svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+				<span class="truncate">{publishError}</span>
+			</div>
 			{/if}
 
 			<button
@@ -127,10 +134,15 @@
 			<button
 				onclick={publishWebsite}
 				disabled={isPublishing}
-				class={`rounded px-4 py-1.5 text-sm font-medium text-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-dark-50 dark:focus:ring-offset-dark-950 ${isPublishing ? 'bg-dark-400 cursor-wait dark:bg-dark-700' : 'premium-gradient hover:scale-105'}`}
+				class={`relative overflow-hidden rounded-md px-4 py-1.5 text-sm font-medium text-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-dark-50 dark:focus:ring-offset-dark-950 ${isPublishing ? 'bg-dark-200 cursor-wait text-dark-500 dark:bg-dark-800 dark:text-dark-400' : 'premium-gradient hover:scale-105'}`}
 				title="Publish to Internet"
 			>
-				{isPublishing ? 'Publishing...' : 'Publish'}
+				{#if isPublishing}
+					<div class="absolute inset-0 flex items-center justify-center bg-dark-200 dark:bg-dark-800">
+						<div class="h-4 w-4 animate-spin rounded-full border-2 border-brand-500 border-t-transparent"></div>
+					</div>
+				{/if}
+				<span class={isPublishing ? 'invisible' : ''}>Publish</span>
 			</button>
 		</div>
 	</header>

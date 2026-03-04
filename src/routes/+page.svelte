@@ -16,9 +16,9 @@
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 			<div class="flex items-center gap-2">
 				<div
-					class="flex h-8 w-8 items-center justify-center rounded-lg premium-gradient text-xl font-bold text-white"
+					class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg premium-gradient text-xl font-bold text-white"
 				>
-					R
+					<img src="/logo.png" alt="Rakit Logo" class="h-full w-full object-cover" />
 				</div>
 				<span class="font-display text-xl font-bold tracking-tight">Rakit</span>
 			</div>

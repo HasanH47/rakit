@@ -49,8 +49,14 @@
   - [x] **Task:** Install and configure the Cloudflare Pages adapter (`@sveltejs/adapter-cloudflare`).
   - [x] **Task:** Configure appropriate `Cache-Control` edge caching headers within the `+server.ts` proxy route to reduce GitHub API hits and accelerate delivery.
 
-### Sprint 4: Polish, E2E Testing & Documentation
+### Sprint 4: Polish, Testing & Asset Generation (Epic 4)
 
-- [ ] **Task:** Conduct End-to-End (E2E) testing via Playwright simulating: Publish action -> Access URL -> Verify rendered DOM.
-- [ ] **Task:** UI/UX refinement (implement skeleton loaders, toaster notifications, and error boundary alerts during the Publish flow).
-- [ ] **Task:** Write comprehensive `README.md` containing local installation steps, `.env` file templates, and Cloudflare deployment community guidelines.
+- [x] **Story:** As a project owner, I need a strong brand identity.
+  - [x] **Task:** Generate a premium Rakit logo reflecting the "assemble modular blocks" concept.
+  - [x] **Task:** Integrate the generated logo into the Topbar and public landing page.
+- [x] **Story:** As a developer, I want absolute confidence in the overarching architecture flow.
+  - [x] **Task:** Configure Playwright E2E testing framework.
+  - [x] **Task:** Write an E2E test simulating: Add Blocks -> Publish -> Access Edge URL -> Assert DOM matching.
+- [x] **Story:** As a user, I want a flawless, premium interaction experience.
+  - [x] **Task:** Implement a beautiful Empty State for the Canvas to guide initial interactions.
+  - [x] **Task:** Refine loading states, implementing skeleton screens or advanced Toaster alerts natively masking the GitHub API delay.
