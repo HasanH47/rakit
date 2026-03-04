@@ -58,8 +58,19 @@ Navigate to `http://localhost:5173`. You can access the builder layout at `/buil
 
 ## Production Deployment (Cloudflare)
 
-Rakit uses `@sveltejs/adapter-cloudflare` resolving to Cloudflare Workers natively.
+Rakit uses `@sveltejs/adapter-cloudflare` resolving to Cloudflare Workers natively. Since it's a zero-cost architecture, deploying to Cloudflare Pages is the recommended path.
 
-1. Ensure your `wrangler.jsonc` configuration limits conflicts (e.g., omitting `ASSETS` reserved name bindings).
-2. Add your `.env` variables stringently to your Cloudflare Page Dashboard settings under the exact names mapped locally.
-3. Connect your GitHub repository to Cloudflare Pages for seamless V8 isolate deployments.
+### Deploying via Cloudflare Dashboard (Recommended)
+
+1. **Push your code to GitHub:** Ensure your entire Rakit repository is pushed to a GitHub repository (e.g., `github.com/your-username/rakit`).
+2. **Access Cloudflare Dashboard:** Log in to [dash.cloudflare.com](https://dash.cloudflare.com/).
+3. **Create Application:** Navigate to **Workers & Pages** -> **Create application** -> **Pages** -> **Connect to Git**.
+4. **Select Repository:** Choose your Rakit repository from the list.
+5. **Configure Build Settings:**
+   - **Framework preset:** SvelteKit
+   - **Build command:** `npm run build`
+   - **Build output directory:** `.svelte-kit/cloudflare`
+6. **Set Environment Variables:** Before clicking deploy, add your required secrets:
+   - `GITHUB_TOKEN`: Your Personal Access Token.
+   - `GITHUB_REPO`: The target storage repository (e.g., `your-username/rakit`).
+7. **Deploy:** Click **Save and Deploy**. Cloudflare will automatically build and distribute Rakit to the Edge network.

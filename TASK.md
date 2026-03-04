@@ -71,3 +71,11 @@
   - [x] **Task:** Modify `generateHtml.ts` to safely compile user-defined CSS strings inside the final `<style>` head tag.
 - [x] **Story:** As a builder, I need finer control over block layouts without overwhelming complexity.
   - [x] **Task:** Add "Advanced Options" in the Inspector for standard blocks (e.g., customizable Tailwind padding/margin spacing sliders or hex color pickers).
+
+### Sprint 6: Production Deployment (Epic 6)
+
+- [x] **Story:** As a user, I want Rakit to be publicly accessible on the internet with zero infrastructure cost.
+  - [x] **Task:** Fix Cloudflare Workers `wrangler.jsonc` `assets.binding` configuration.
+  - [x] **Task:** Verify `npm run build` succeeds locally.
+  - [x] **Task:** Document the GitOps deployment method via Dashboard.
+  - [x] **Task:** Configure Cloudflare environment variables securely (`GITHUB_TOKEN`, `GITHUB_REPO`).
